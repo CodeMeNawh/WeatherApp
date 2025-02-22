@@ -53,7 +53,7 @@ const WeatherApp = () => {
     Mist: cloudy,
   }
     const weatherCondition = data.weather?.[0]?.main || 'Clear';
-  const weatherImage = weatherImages[weatherCondition] || sunny;
+    const weatherImage = weatherImages[weatherCondition] || sunny;
 
   const backgroundImages = {
     Clear: " linear-gradient(to right, #f3b07c, #fcd283)",
@@ -71,6 +71,17 @@ const WeatherApp = () => {
   
   const humidity = data.main?.humidity || 'Wet';
   const windSpeed = data.wind?.speed || 'Windy';
+
+  const currentDate = new Date();
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  const dayOfWeek = daysOfWeek[currentDate.getDay()];
+  const month = months[currentDate.getMonth()];
+  const dayOfMonth = currentDate.getDate();
+  const formattedDate = `${dayOfWeek}  ${dayOfMonth}  ${month}`
+
+  
 
   return (
     <div className="container" style={{backgroundImage}}>
@@ -91,7 +102,7 @@ const WeatherApp = () => {
                 <div className="temp">{temperature}°</div>
             </div>
             <div className="weather-date">
-                <p>Fri, 2 February</p>
+                <p>{formattedDate}</p>
             </div>
             <div className="weather-data">
                 <div className="humidity">
