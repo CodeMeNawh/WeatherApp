@@ -2,6 +2,7 @@ import sunny from "../assets/images/sunny.png"
 import cloudy from "../assets/images/cloudy.png"
 import rainy from "../assets/images/rainy.png"
 import snowy from "../assets/images/snowy.png"
+import loadingGif from "../assets/images/loading.gif"
 import { useState, useEffect } from "react"
 
 
@@ -9,15 +10,18 @@ import { useState, useEffect } from "react"
 const WeatherApp = () => {
     const [data,setData] = useState({})
     const [location, setLocation] = useState('');
+    const [loading, setLoading] = useState(false);
     const api_key = "14e820022d576eb4a4ee9d427841f4af";  
 
     useEffect(() => {
         const fetchDefaultWeather = async ()=>{
+            setLoading(true)
             const defaultLocation = "Warsaw"
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=Metric&appid=${api_key}`;
             const res = await fetch(url)
             const defaultData = await res.json()
             setData(defaultData);
+            setLoading(false)
         }
         fetchDefaultWeather()
     },[])
@@ -31,9 +35,16 @@ const WeatherApp = () => {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=Metric&appid=${api_key}`;
         const res = await fetch(url);
         const searchData = await res.json()
-        console.log(searchData)
-        setData(searchData);
-        setLocation('')
+        
+        if(searchData.cod !== 200){
+            setData({notFound : true})
+        }else{
+            setData(searchData);
+            setLocation('') 
+        }
+        setLoading(false)
+
+        
     }
     
   }
@@ -96,7 +107,8 @@ const WeatherApp = () => {
                   <i className="fa-solid fa-magnifying-glass" onClick={search}></i>
                 </div>
             </div>
-            <div className="weather">
+            {loading ? (<img className="loader" src="loadingGif" alt="loading"/>) : data.notFound ? (<div className="not-found">Not Found 😢</div>) : (
+                <><div className="weather">
                 <img src={weatherImage} alt="sunny" />
                 <div className="weather-type">{weatherCondition}</div>
                 <div className="temp">{temperature}°</div>
@@ -115,7 +127,9 @@ const WeatherApp = () => {
                     <i className="fa-solid fa-wind"></i>
                     <div className="data">{windSpeed} km/h</div>
                 </div>
-            </div>
+            </div></>
+            )}
+            
 
         </div>
     </div>

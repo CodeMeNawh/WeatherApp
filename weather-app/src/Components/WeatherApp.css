@@ -81,6 +81,20 @@
     right: 1.5rem;
     font-size: 1.5rem;
     color: #2f2e57;
+    cursor: pointer;
+}
+
+.not-found {
+    font-size: 3rem;
+    color:#484569;
+    margin-top: 5rem;
+    text-shadow: -0.3rem 0.5rem 1rem rgba(0, 0,0,0.2);
+
+}
+
+.loader {
+    width: 5rem;
+    margin-top: 10rem;
 }
 
 .weather-type {
@@ -149,6 +163,4 @@
     color: #2f2e57;
 }
 
-.fa-solid.fa-magnifying-glass {
-    cursor: pointer;
-}
+
